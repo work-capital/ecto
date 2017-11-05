@@ -22,7 +22,8 @@ defmodule Ecto.Repo.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      env: [postgres_map_type: "jsonb"]
+      env: [postgres_map_type: "jsonb"],
+      mod: {Ecto.Repo.Application, []}
     ]
   end
 

@@ -25,8 +25,7 @@ defmodule Ecto.Mixfile do
 
   def application do
     [
-      applications: [:logger, :decimal, :poolboy, :crypto],
-      mod: {Ecto.Application, []}
+      applications: [:logger, :decimal, :poolboy, :crypto]
     ]
   end
 

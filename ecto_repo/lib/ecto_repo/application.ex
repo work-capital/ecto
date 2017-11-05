@@ -1,4 +1,4 @@
-defmodule Ecto.Application do
+defmodule Ecto.Repo.Application do
   @moduledoc false
 
   use Application

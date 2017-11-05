@@ -1,3 +1,4 @@
+# TODO: rename to Ecto.Repo.Adapter here and in other files & tests
 defmodule Ecto.Adapter do
   @moduledoc """
   This module specifies the adapter API that an adapter is required to

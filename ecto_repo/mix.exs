@@ -12,6 +12,11 @@ defmodule Ecto.Repo.MixProject do
       deps: deps(),
       test_paths: test_paths(Mix.env),
 
+     xref: [exclude: [Mariaex, Ecto.Adapters.MySQL.Connection,
+                      Postgrex, Ecto.Adapters.Postgres.Connection,
+                      DBConnection, DBConnection.Ownership]],
+
+
       # Custom testing
       aliases: ["test.all": ["test", "test.adapters"],
                 "test.adapters": &test_adapters/1],
@@ -21,7 +26,7 @@ defmodule Ecto.Repo.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
+      applications: [:logger, :decimal, :poolboy, :crypto],
       env: [postgres_map_type: "jsonb"],
       mod: {Ecto.Repo.Application, []}
     ]
@@ -30,6 +35,7 @@ defmodule Ecto.Repo.MixProject do
   defp deps do
     [
       {:ecto, path: "../ecto"},
+      {:poolboy, "~> 1.5"},
 
       # Drivers
       {:db_connection, "~> 1.1", optional: true},

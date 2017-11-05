@@ -10,9 +10,6 @@ defmodule Ecto.Mixfile do
      deps: deps(),
      build_per_environment: false,
      consolidate_protocols: false,
-     xref: [exclude: [Mariaex, Ecto.Adapters.MySQL.Connection,
-                      Postgrex, Ecto.Adapters.Postgres.Connection,
-                      DBConnection, DBConnection.Ownership]],
 
      # Hex
      description: "A database wrapper and language integrated query for Elixir",
@@ -25,22 +22,15 @@ defmodule Ecto.Mixfile do
 
   def application do
     [
-      applications: [:logger, :decimal, :poolboy, :crypto]
+      applications: [:logger, :decimal, :crypto]
     ]
   end
 
   defp deps do
     [
-      {:poolboy, "~> 1.5"},
       {:decimal, "~> 1.2"},
 
-      # Drivers
-      {:db_connection, "~> 1.1", optional: true},
-      {:postgrex, "~> 0.14.0-dev", optional: true, github: "elixir-ecto/postgrex"},
-      {:mariaex, "~> 0.9.0-dev", optional: true, github: "xerions/mariaex"},
-
       # Optional
-      {:sbroker, "~> 1.0", optional: true},
       {:poison, "~> 2.2 or ~> 3.0", optional: true},
 
       # Docs

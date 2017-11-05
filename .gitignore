@@ -1,5 +1,5 @@
-/_build
-/deps
-/doc
-/tmp
+ecto/_build
+ecto/deps
+ecto/doc
+ecto/tmp
 erl_crash.dump

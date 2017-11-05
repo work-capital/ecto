@@ -4,7 +4,7 @@ defmodule Ecto.Repo.SupervisorTest do
   import Ecto.Repo.Supervisor
 
   defp put_env(env) do
-    Application.put_env(:ecto, __MODULE__, env)
+    Application.put_env(:ecto_repo, __MODULE__, env)
   end
 
   defp normalize(config) do
@@ -18,35 +18,35 @@ defmodule Ecto.Repo.SupervisorTest do
 
   test "invokes the init/2 callback on config" do
     assert Ecto.TestRepo.config() |> normalize() ==
-           [database: "hello", hostname: "local", otp_app: :ecto, password: "pass",
+           [database: "hello", hostname: "local", otp_app: :ecto_repo, password: "pass",
             repo: Ecto.TestRepo, user: "invalid", username: "user"]
   end
 
   test "reads otp app configuration" do
     put_env(database: "hello")
-    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto, [])
+    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto_repo, [])
     assert normalize(config) ==
-           [database: "hello", otp_app: :ecto, repo: __MODULE__]
+           [database: "hello", otp_app: :ecto_repo, repo: __MODULE__]
   end
 
   test "merges url into configuration" do
     put_env(database: "hello", url: "ecto://eric:hunter2@host:12345/mydb")
-    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto, [extra: "extra"])
+    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto_repo, [extra: "extra"])
     assert normalize(config) ==
-           [database: "mydb", extra: "extra", hostname: "host", otp_app: :ecto,
+           [database: "mydb", extra: "extra", hostname: "host", otp_app: :ecto_repo,
             password: "hunter2", port: 12345, repo: __MODULE__, username: "eric"]
   end
 
   test "is no-op for nil or empty URL" do
     put_env(database: "hello", url: nil)
-    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto, [])
+    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto_repo, [])
     assert normalize(config) ==
-           [database: "hello", otp_app: :ecto, repo: Ecto.Repo.SupervisorTest]
+           [database: "hello", otp_app: :ecto_repo, repo: Ecto.Repo.SupervisorTest]
 
     put_env(database: "hello", url: "")
-    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto, [])
+    {:ok, config} = runtime_config(:dry_run, __MODULE__, :ecto_repo, [])
     assert normalize(config) ==
-           [database: "hello", otp_app: :ecto, repo: Ecto.Repo.SupervisorTest]
+           [database: "hello", otp_app: :ecto_repo, repo: Ecto.Repo.SupervisorTest]
   end
 
   test "parse_url options" do

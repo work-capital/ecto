@@ -24,7 +24,7 @@ defmodule Ecto.Integration.LockTest do
     pid = self()
 
     lock_for_update =
-      Application.get_env(:ecto, :lock_for_update) ||
+      Application.get_env(:ecto_repo, :lock_for_update) ||
       raise ":lock_for_update not set in :ecto application"
 
     # Here we are manually inserting the lock in the query

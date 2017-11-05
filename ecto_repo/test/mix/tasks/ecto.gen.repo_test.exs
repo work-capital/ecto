@@ -10,16 +10,16 @@ defmodule Mix.Tasks.Ecto.Gen.RepoTest do
 
       assert_file "lib/repo.ex", """
       defmodule Repo do
-        use Ecto.Repo, otp_app: :ecto
+        use Ecto.Repo, otp_app: :ecto_repo
       end
       """
 
       assert_file "config/config.exs", """
       use Mix.Config
 
-      config :ecto, Repo,
+      config :ecto_repo, Repo,
         adapter: Ecto.Adapters.Postgres,
-        database: "ecto_repo",
+        database: "ecto_repo_repo",
         username: "user",
         password: "pass",
         hostname: "localhost"
@@ -42,9 +42,9 @@ defmodule Mix.Tasks.Ecto.Gen.RepoTest do
       # Hello
       use Mix.Config
 
-      config :ecto, Repo,
+      config :ecto_repo, Repo,
         adapter: Ecto.Adapters.Postgres,
-        database: "ecto_repo",
+        database: "ecto_repo_repo",
         username: "user",
         password: "pass",
         hostname: "localhost"

@@ -9,7 +9,7 @@ defmodule Ecto.Integration.StorageTest do
 
   def params do
     Ecto.Repo.Supervisor.parse_url(
-      Application.get_env(:ecto, :mysql_test_url) <> "/storage_mgt"
+      Application.get_env(:ecto_repo, :mysql_test_url) <> "/storage_mgt"
     )
   end
 

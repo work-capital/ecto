@@ -11,7 +11,7 @@ defmodule Ecto.Integration.StorageTest do
 
   def params do
     # Pass log false to ensure we can still create/drop.
-    url = Application.get_env(:ecto, :pg_test_url) <> "/storage_mgt"
+    url = Application.get_env(:ecto_repo, :pg_test_url) <> "/storage_mgt"
     [log: false] ++ Ecto.Repo.Supervisor.parse_url(url)
   end
 

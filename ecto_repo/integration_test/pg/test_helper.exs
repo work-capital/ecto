@@ -2,11 +2,11 @@ Logger.configure(level: :info)
 ExUnit.start
 
 # Configure Ecto for support and tests
-Application.put_env(:ecto, :lock_for_update, "FOR UPDATE")
-Application.put_env(:ecto, :primary_key_type, :id)
+Application.put_env(:ecto_repo, :lock_for_update, "FOR UPDATE")
+Application.put_env(:ecto_repo, :primary_key_type, :id)
 
 # Configure PG connection
-Application.put_env(:ecto, :pg_test_url,
+Application.put_env(:ecto_repo, :pg_test_url,
   "ecto://" <> (System.get_env("PG_URL") || "postgres:postgres@localhost")
 )
 
@@ -24,29 +24,29 @@ pool =
 # Pool repo for async, safe tests
 alias Ecto.Integration.TestRepo
 
-Application.put_env(:ecto, TestRepo,
+Application.put_env(:ecto_repo, TestRepo,
   adapter: Ecto.Adapters.Postgres,
-  url: Application.get_env(:ecto, :pg_test_url) <> "/ecto_test",
+  url: Application.get_env(:ecto_repo, :pg_test_url) <> "/ecto_test",
   pool: Ecto.Adapters.SQL.Sandbox,
   ownership_pool: pool)
 
 defmodule Ecto.Integration.TestRepo do
-  use Ecto.Integration.Repo, otp_app: :ecto
+  use Ecto.Integration.Repo, otp_app: :ecto_repo
 end
 
 # Pool repo for non-async tests
 alias Ecto.Integration.PoolRepo
 
-Application.put_env(:ecto, PoolRepo,
+Application.put_env(:ecto_repo, PoolRepo,
   adapter: Ecto.Adapters.Postgres,
   pool: pool,
-  url: Application.get_env(:ecto, :pg_test_url) <> "/ecto_test",
+  url: Application.get_env(:ecto_repo, :pg_test_url) <> "/ecto_test",
   pool_size: 10,
   max_restarts: 20,
   max_seconds: 10)
 
 defmodule Ecto.Integration.PoolRepo do
-  use Ecto.Integration.Repo, otp_app: :ecto
+  use Ecto.Integration.Repo, otp_app: :ecto_repo
 
   def create_prefix(prefix) do
     "create schema #{prefix}"
@@ -79,7 +79,7 @@ _   = Ecto.Adapters.Postgres.storage_down(TestRepo.config)
 if Version.match?(version, "~> 9.5") do
   ExUnit.configure(exclude: [:without_conflict_target])
 else
-  Application.put_env(:ecto, :postgres_map_type, "json")
+  Application.put_env(:ecto_repo, :postgres_map_type, "json")
   ExUnit.configure(exclude: [:upsert, :upsert_all, :array_type])
 end
 

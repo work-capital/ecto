@@ -7,12 +7,12 @@ ExUnit.start exclude: [:array_type, :read_after_writes, :uses_usec, :uses_msec, 
                        :transaction_isolation, :rename_column, :with_conflict_target]
 
 # Configure Ecto for support and tests
-Application.put_env(:ecto, :lock_for_update, "FOR UPDATE")
-Application.put_env(:ecto, :primary_key_type, :id)
-Application.put_env(:ecto, :async_integration_tests, false)
+Application.put_env(:ecto_repo, :lock_for_update, "FOR UPDATE")
+Application.put_env(:ecto_repo, :primary_key_type, :id)
+Application.put_env(:ecto_repo, :async_integration_tests, false)
 
 # Configure MySQL connection
-Application.put_env(:ecto, :mysql_test_url,
+Application.put_env(:ecto_repo, :mysql_test_url,
   "ecto://" <> (System.get_env("MYSQL_URL") || "root@localhost")
 )
 
@@ -30,27 +30,27 @@ pool =
 # Pool repo for async, safe tests
 alias Ecto.Integration.TestRepo
 
-Application.put_env(:ecto, TestRepo,
+Application.put_env(:ecto_repo, TestRepo,
   adapter: Ecto.Adapters.MySQL,
-  url: Application.get_env(:ecto, :mysql_test_url) <> "/ecto_test",
+  url: Application.get_env(:ecto_repo, :mysql_test_url) <> "/ecto_test",
   pool: Ecto.Adapters.SQL.Sandbox,
   ownership_pool: pool)
 
 defmodule Ecto.Integration.TestRepo do
-  use Ecto.Integration.Repo, otp_app: :ecto
+  use Ecto.Integration.Repo, otp_app: :ecto_repo
 end
 
 # Pool repo for non-async tests
 alias Ecto.Integration.PoolRepo
 
-Application.put_env(:ecto, PoolRepo,
+Application.put_env(:ecto_repo, PoolRepo,
   adapter: Ecto.Adapters.MySQL,
   pool: pool,
-  url: Application.get_env(:ecto, :mysql_test_url) <> "/ecto_test",
+  url: Application.get_env(:ecto_repo, :mysql_test_url) <> "/ecto_test",
   pool_size: 10)
 
 defmodule Ecto.Integration.PoolRepo do
-  use Ecto.Integration.Repo, otp_app: :ecto
+  use Ecto.Integration.Repo, otp_app: :ecto_repo
 
   def create_prefix(prefix) do
     "create database #{prefix}"

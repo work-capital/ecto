@@ -10,7 +10,7 @@ defmodule Ecto.TestAdapter do
   end
 
   def child_spec(_repo, opts) do
-    :ecto   = opts[:otp_app]
+    :ecto_repo = opts[:otp_app]
     "user"  = opts[:username]
     "pass"  = opts[:password]
     "hello" = opts[:database]
@@ -126,16 +126,16 @@ defmodule Ecto.TestAdapter do
   end
 
   defp get_config(name, default) do
-    :ecto
+    :ecto_repo
     |> Application.get_env(__MODULE__, [])
     |> Keyword.get(name, default)
   end
 end
 
-Application.put_env(:ecto, Ecto.TestRepo, [user: "invalid"])
+Application.put_env(:ecto_repo, Ecto.TestRepo, [user: "invalid"])
 
 defmodule Ecto.TestRepo do
-  use Ecto.Repo, otp_app: :ecto, adapter: Ecto.TestAdapter
+  use Ecto.Repo, otp_app: :ecto_repo, adapter: Ecto.TestAdapter
 
   def init(type, opts) do
     opts = [url: "ecto://user:pass@local/hello"] ++ opts

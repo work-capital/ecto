@@ -13,10 +13,10 @@ defmodule Mix.EctoTest do
     assert parse_repo([]) == []
 
     # No warning
-    Application.put_env(:ecto, :ecto_repos, [Foo.Repo])
+    Application.put_env(:ecto_repo, :ecto_repos, [Foo.Repo])
     assert parse_repo([]) == [Foo.Repo]
   after
-    Application.delete_env(:ecto, :ecto_repos)
+    Application.delete_env(:ecto_repo, :ecto_repos)
   end
 
   defmodule Repo do
@@ -30,7 +30,7 @@ defmodule Mix.EctoTest do
     end
 
     def config do
-      [priv: Process.get(:priv), otp_app: :ecto]
+      [priv: Process.get(:priv), otp_app: :ecto_repo]
     end
   end
 
@@ -40,7 +40,7 @@ defmodule Mix.EctoTest do
     end
 
     def config do
-      [priv: Process.get(:priv), otp_app: :ecto]
+      [priv: Process.get(:priv), otp_app: :ecto_repo]
     end
   end
 

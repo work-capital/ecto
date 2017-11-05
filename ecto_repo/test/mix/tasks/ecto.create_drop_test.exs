@@ -19,16 +19,16 @@ defmodule Mix.Tasks.Ecto.CreateDropTest do
   # Mocked repos
 
   defmodule Repo do
-    use Ecto.Repo, otp_app: :ecto, adapter: Adapter
+    use Ecto.Repo, otp_app: :ecto_repo, adapter: Adapter
   end
 
   defmodule NoStorageRepo do
-    use Ecto.Repo, otp_app: :ecto, adapter: NoStorageAdapter
+    use Ecto.Repo, otp_app: :ecto_repo, adapter: NoStorageAdapter
   end
 
   setup do
-    Application.put_env(:ecto, __MODULE__.Repo, [])
-    Application.put_env(:ecto, __MODULE__.NoStorageRepo, [])
+    Application.put_env(:ecto_repo, __MODULE__.Repo, [])
+    Application.put_env(:ecto_repo, __MODULE__.NoStorageRepo, [])
   end
 
   ## Create

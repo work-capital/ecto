@@ -530,7 +530,7 @@ defmodule Ecto.RepoTest do
   end
 
   defmodule NoTransactionRepo do
-    use Ecto.Repo, otp_app: :ecto, adapter: NoTransactionAdapter
+    use Ecto.Repo, otp_app: :ecto_repo, adapter: NoTransactionAdapter
   end
 
   test "no transaction functions generated on repo, without adapter support" do

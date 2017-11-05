@@ -31,13 +31,13 @@ defmodule Mix.Tasks.Ecto.MigrationsTest do
     end
 
     def config do
-      [priv: "tmp/#{inspect(Ecto.Migrations)}", otp_app: :ecto]
+      [priv: "tmp/#{inspect(Ecto.Migrations)}", otp_app: :ecto_repo]
     end
   end
 
 
   test "migrations displays the up and down status for the default repo" do
-    Application.put_env(:ecto, :ecto_repos, [Repo])
+    Application.put_env(:ecto_repo, :ecto_repos, [Repo])
 
     migrations = fn _, _ ->
       [

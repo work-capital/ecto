@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Ecto.Gen.MigrationTest do
     end
 
     def config do
-      [priv: "tmp/#{inspect(Ecto.Gen.Migration)}", otp_app: :ecto]
+      [priv: "tmp/#{inspect(Ecto.Gen.Migration)}", otp_app: :ecto_repo]
     end
   end
 

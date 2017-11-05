@@ -111,11 +111,11 @@ defmodule Ecto.Integration.MigratorTest do
   end
 
   test "raises when connection pool is too small" do
-    config = Application.fetch_env!(:ecto, PoolRepo)
-    Application.put_env(:ecto, __MODULE__.SingleConnectionRepo, Keyword.put(config, :pool_size, 1))
+    config = Application.fetch_env!(:ecto_repo, PoolRepo)
+    Application.put_env(:ecto_repo, __MODULE__.SingleConnectionRepo, Keyword.put(config, :pool_size, 1))
 
     defmodule SingleConnectionRepo do
-      use Ecto.Repo, otp_app: :ecto
+      use Ecto.Repo, otp_app: :ecto_repo
     end
 
     {:ok, _pid} = SingleConnectionRepo.start_link

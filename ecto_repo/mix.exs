@@ -10,7 +10,7 @@ defmodule Ecto.Repo.MixProject do
       elixir: "~> 1.6-dev",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-     test_paths: test_paths(Mix.env),
+      test_paths: test_paths(Mix.env),
 
       # Custom testing
       aliases: ["test.all": ["test", "test.adapters"],
@@ -22,13 +22,22 @@ defmodule Ecto.Repo.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Ecto.Repo.Application, []}
+      env: [postgres_map_type: "jsonb"]
     ]
   end
 
   defp deps do
     [
-      {:ecto, path: "../ecto"}
+      {:ecto, path: "../ecto"},
+
+      # Drivers
+      {:db_connection, "~> 1.1", optional: true},
+      {:postgrex, "~> 0.14.0-dev", optional: true, github: "elixir-ecto/postgrex"},
+      {:mariaex, "~> 0.9.0-dev", optional: true, github: "xerions/mariaex"},
+
+      # Optional
+      {:sbroker, "~> 1.0", optional: true},
+      {:poison, "~> 2.2 or ~> 3.0", optional: true}
     ]
   end
 

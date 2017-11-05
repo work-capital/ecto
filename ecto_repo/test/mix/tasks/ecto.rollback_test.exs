@@ -31,7 +31,7 @@ defmodule Mix.Tasks.Ecto.RollbackTest do
     end
 
     def config do
-      [priv: "tmp/#{inspect(Ecto.Migrate)}", otp_app: :ecto]
+      [priv: "tmp/#{inspect(Ecto.Migrate)}", otp_app: :ecto_repo]
     end
   end
 
@@ -49,7 +49,7 @@ defmodule Mix.Tasks.Ecto.RollbackTest do
     end
 
     def config do
-      [priv: "tmp/#{inspect(Ecto.Migrate)}", otp_app: :ecto]
+      [priv: "tmp/#{inspect(Ecto.Migrate)}", otp_app: :ecto_repo]
     end
   end
 

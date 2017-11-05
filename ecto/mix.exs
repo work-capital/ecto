@@ -26,7 +26,6 @@ defmodule Ecto.Mixfile do
   def application do
     [
       applications: [:logger, :decimal, :poolboy, :crypto],
-      env: [postgres_map_type: "jsonb"],
       mod: {Ecto.Application, []}
     ]
   end

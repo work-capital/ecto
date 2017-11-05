@@ -11,9 +11,9 @@ defmodule Ecto.MigrationTest do
   alias Ecto.Migration.Runner
 
   setup meta do
-    config = Application.get_env(:ecto, TestRepo, [])
-    Application.put_env(:ecto, TestRepo, Keyword.merge(config, meta[:repo_config] || []))
-    on_exit fn -> Application.put_env(:ecto, TestRepo, config) end
+    config = Application.get_env(:ecto_repo, TestRepo, [])
+    Application.put_env(:ecto_repo, TestRepo, Keyword.merge(config, meta[:repo_config] || []))
+    on_exit fn -> Application.put_env(:ecto_repo, TestRepo, config) end
   end
 
   setup meta do

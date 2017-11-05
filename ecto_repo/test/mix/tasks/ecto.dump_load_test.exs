@@ -19,16 +19,16 @@ defmodule Mix.Tasks.Ecto.DumpLoadTest do
   # Mocked repos
 
   defmodule Repo do
-    use Ecto.Repo, otp_app: :ecto, adapter: Adapter
+    use Ecto.Repo, otp_app: :ecto_repo, adapter: Adapter
   end
 
   defmodule NoStructureRepo do
-    use Ecto.Repo, otp_app: :ecto, adapter: NoStructureAdapter
+    use Ecto.Repo, otp_app: :ecto_repo, adapter: NoStructureAdapter
   end
 
   setup do
-    Application.put_env(:ecto, __MODULE__.Repo, [])
-    Application.put_env(:ecto, __MODULE__.NoStructureRepo, [])
+    Application.put_env(:ecto_repo, __MODULE__.Repo, [])
+    Application.put_env(:ecto_repo, __MODULE__.NoStructureRepo, [])
   end
 
   ## Dump

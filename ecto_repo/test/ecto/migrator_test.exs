@@ -75,10 +75,10 @@ defmodule Ecto.MigratorTest do
   end
 
   defmodule TestSchemaRepo do
-    use Ecto.Repo, otp_app: :ecto, adapter: Ecto.TestAdapter
+    use Ecto.Repo, otp_app: :ecto_repo, adapter: Ecto.TestAdapter
   end
 
-  Application.put_env(:ecto, TestSchemaRepo, [migration_source: "my_schema_migrations"])
+  Application.put_env(:ecto_repo, TestSchemaRepo, [migration_source: "my_schema_migrations"])
 
   setup do
     Process.put(:migrated_versions, [1, 2, 3])
@@ -86,10 +86,10 @@ defmodule Ecto.MigratorTest do
   end
 
   def put_test_adapter_config(config) do
-    Application.put_env(:ecto, Ecto.TestAdapter, config)
+    Application.put_env(:ecto_repo, Ecto.TestAdapter, config)
 
     on_exit fn ->
-      Application.delete_env(:ecto, Ecto.TestAdapter)
+      Application.delete_env(:ecto_repo, Ecto.TestAdapter)
     end
   end
 

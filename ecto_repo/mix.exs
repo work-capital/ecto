@@ -20,6 +20,7 @@ defmodule Ecto.Repo.MixProject do
 
   defp deps do
     [
+      {:ecto, path: "../ecto"}
     ]
   end
 end

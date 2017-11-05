@@ -2,4 +2,8 @@ ecto/_build
 ecto/deps
 ecto/doc
 ecto/tmp
+ecto_repo/_build
+ecto_repo/deps
+ecto_repo/doc
+ecto_repo/tmp
 erl_crash.dump

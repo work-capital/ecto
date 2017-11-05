@@ -2,7 +2,7 @@
 set -e
 
 echo "ecto:"
-(cd ecto && mix deps.get && mix test --exclude repo)
+(cd ecto && mix deps.get && mix test --exclude repo --exclude adapter)
 echo
 
 echo "ecto_repo:"

@@ -301,6 +301,7 @@ defmodule Ecto.Changeset.HasAssocTest do
     refute changeset.valid?
   end
 
+  @tag :repo
   test "cast has_one with on_replace: :update" do
     {:ok, schema} = TestRepo.insert(%Author{title: "Title",
       update_profile: %Profile{id: 1, name: "Enio"}})

@@ -1063,6 +1063,7 @@ defmodule Ecto.ChangesetTest do
 
   alias Ecto.TestRepo
 
+  @tag :repo
   test "unsafe_validate_unique/3" do
     dup_result = {1, [true]}
     no_dup_result = {0, []}

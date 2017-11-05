@@ -1,20 +1,22 @@
 defmodule Ecto.Repo.MixProject do
   use Mix.Project
 
+  @version "3.0.0-dev"
+
   @adapters [:pg, :mysql]
 
   def project do
     [
       app: :ecto_repo,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.6-dev",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       test_paths: test_paths(Mix.env),
 
-     xref: [exclude: [Mariaex, Ecto.Adapters.MySQL.Connection,
-                      Postgrex, Ecto.Adapters.Postgres.Connection,
-                      DBConnection, DBConnection.Ownership]],
+      xref: [exclude: [Mariaex, Ecto.Adapters.MySQL.Connection,
+                       Postgrex, Ecto.Adapters.Postgres.Connection,
+                       DBConnection, DBConnection.Ownership]],
 
 
       # Custom testing
@@ -34,7 +36,7 @@ defmodule Ecto.Repo.MixProject do
 
   defp deps do
     [
-      {:ecto, path: "../ecto"},
+      {:ecto, "~> 3.0-dev", path: "../ecto"},
       {:poolboy, "~> 1.5"},
 
       # Drivers

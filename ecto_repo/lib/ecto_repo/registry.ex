@@ -1,3 +1,4 @@
+# TODO: Rename to Ecto.Repo.Registry
 defmodule Ecto.Registry do
   @moduledoc false
 

@@ -17,20 +17,16 @@ defmodule Ecto.Repo.Supervisor do
   Retrieves the runtime configuration.
   """
   def runtime_config(type, repo, otp_app, opts) do
-    if config = Application.get_env(otp_app, repo) do
-      config = [otp_app: otp_app] ++ (@defaults |> Keyword.merge(config) |> Keyword.merge(opts))
+    config = Application.get_env(otp_app, repo) || []
+    config = [otp_app: otp_app] ++ (@defaults |> Keyword.merge(config) |> Keyword.merge(opts))
 
-      case repo_init(type, repo, config) do
-        {:ok, config} ->
-          {url, config} = Keyword.pop(config, :url)
-          {:ok, Keyword.merge(config, parse_url(url || ""))}
+    case repo_init(type, repo, config) do
+      {:ok, config} ->
+        {url, config} = Keyword.pop(config, :url)
+        {:ok, Keyword.merge(config, parse_url(url || ""))}
 
-        :ignore ->
-          :ignore
-      end
-    else
-      raise ArgumentError,
-        "configuration for #{inspect repo} not specified in #{inspect otp_app} environment"
+      :ignore ->
+        :ignore
     end
   end
 

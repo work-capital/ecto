@@ -22,6 +22,10 @@ defmodule Ecto.RepoTest do
       field :array, {:array, :string}
       field :map, {:map, :string}
       belongs_to :parent, MyParent
+
+      embeds_many :embeds, Embed do
+        field :x, :string
+      end
     end
   end
 
@@ -363,6 +367,33 @@ defmodule Ecto.RepoTest do
   test "delete runs prepare callbacks in transaction" do
     changeset = prepare_changeset()
     TestRepo.delete!(changeset)
+    assert_received {:transaction, _}
+    assert Process.get(:ecto_repo) == TestRepo
+    assert Process.get(:ecto_counter) == 2
+  end
+
+  test "prepare_changes functions of embeds are run" do
+    embed_changeset =
+      %MySchema.Embed{id: 1}
+      |> Ecto.Changeset.cast(%{x: "one"}, [:x])
+      |> Ecto.Changeset.prepare_changes(fn %{repo: repo} = changeset ->
+        Process.put(:ecto_repo, repo)
+        Process.put(:ecto_counter, 1)
+        changeset
+      end)
+      |> Ecto.Changeset.prepare_changes(fn changeset ->
+        1 = Process.get(:ecto_counter)
+        Process.put(:ecto_counter, 2)
+        Ecto.Changeset.update_change(changeset, :x, &String.upcase/1)
+      end)
+
+    changeset =
+      %MySchema{id: 1}
+      |> Ecto.Changeset.cast(%{x: "one"}, [:x])
+      |> Ecto.Changeset.put_embed(:embeds, [embed_changeset])
+
+    %MySchema{embeds: [embed]} = TestRepo.insert!(changeset)
+    assert embed.x == "ONE"
     assert_received {:transaction, _}
     assert Process.get(:ecto_repo) == TestRepo
     assert Process.get(:ecto_counter) == 2

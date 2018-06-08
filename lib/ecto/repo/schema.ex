@@ -479,15 +479,35 @@ defmodule Ecto.Repo.Schema do
     do: %{changeset | action: action, repo: repo}
 
   defp run_prepare(changeset, prepare) do
-    Enum.reduce(Enum.reverse(prepare), changeset, fn fun, acc ->
-      case fun.(acc) do
-        %Ecto.Changeset{} = acc -> acc
-        other ->
-          raise "expected function #{inspect fun} given to Ecto.Changeset.prepare_changes/2 " <>
-                "to return an Ecto.Changeset, got: `#{inspect other}`"
-      end
-    end)
+    changeset =
+      Enum.reduce(Enum.reverse(prepare), changeset, fn fun, acc ->
+        case fun.(acc) do
+          %Ecto.Changeset{} = acc -> acc
+          other ->
+            raise "expected function #{inspect fun} given to Ecto.Changeset.prepare_changes/2 " <>
+                  "to return an Ecto.Changeset, got: `#{inspect other}`"
+        end
+      end)
+
+    changes =
+      Enum.reduce(changeset.changes, %{}, fn {key, change}, acc ->
+        Map.put(acc, key, maybe_run_prepare(change, changeset.repo))
+      end)
+
+    %{changeset | changes: changes}
   end
+
+  defp maybe_run_prepare(%Ecto.Changeset{} = changeset, repo),
+    do: run_prepare(%{changeset | repo: repo}, changeset.prepare)
+  defp maybe_run_prepare(list, repo) when is_list(list),
+    do: maybe_run_prepare(list, repo, [])
+  defp maybe_run_prepare(other, _repo),
+    do: other
+
+  defp maybe_run_prepare([head | tail], repo, acc),
+    do: [maybe_run_prepare(head, repo) | maybe_run_prepare(tail, repo, acc)]
+  defp maybe_run_prepare([], _repo, acc),
+    do: Enum.reverse(acc)
 
   defp metadata(schema, prefix, source, autogen_id, context, opts) do
     %{

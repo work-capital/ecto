@@ -12,6 +12,14 @@ defmodule Ecto.RepoTest do
     end
   end
 
+  defmodule MyEmbed do
+    use Ecto.Schema
+
+    embedded_schema do
+      field :x, :string
+    end
+  end
+
   defmodule MySchema do
     use Ecto.Schema
 
@@ -23,9 +31,7 @@ defmodule Ecto.RepoTest do
       field :map, {:map, :string}
       belongs_to :parent, MyParent
 
-      embeds_many :embeds, Embed do
-        field :x, :string
-      end
+      embeds_many :embeds, MyEmbed
     end
   end
 
@@ -374,7 +380,7 @@ defmodule Ecto.RepoTest do
 
   test "prepare_changes functions of embeds are run" do
     embed_changeset =
-      %MySchema.Embed{id: 1}
+      %MyEmbed{}
       |> Ecto.Changeset.cast(%{x: "one"}, [:x])
       |> Ecto.Changeset.prepare_changes(fn %{repo: repo} = changeset ->
         Process.put(:ecto_repo, repo)
